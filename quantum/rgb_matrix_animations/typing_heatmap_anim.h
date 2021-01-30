@@ -9,25 +9,25 @@ RGB_MATRIX_EFFECT(TYPING_HEATMAP)
 void process_rgb_matrix_typing_heatmap(keyrecord_t* record) {
     uint8_t row   = record->event.key.row;
     uint8_t col   = record->event.key.col;
-    uint8_t m_row = row - 1;
-    uint8_t p_row = row + 1;
-    uint8_t m_col = col - 1;
-    uint8_t p_col = col + 1;
+    uint8_t m_row = row-1;
+    uint8_t p_row = row+1;
+    uint8_t m_col = col-1;
+    uint8_t p_col = col+1;
 
-    if (m_col < col) g_rgb_frame_buffer[row][m_col] = qadd8(g_rgb_frame_buffer[row][m_col], 16);
-    g_rgb_frame_buffer[row][col] = qadd8(g_rgb_frame_buffer[row][col], 32);
-    if (p_col < MATRIX_COLS) g_rgb_frame_buffer[row][p_col] = qadd8(g_rgb_frame_buffer[row][p_col], 16);
+    if (m_col < col) g_rgb_frame_buffer[row][m_col] = qadd8(g_rgb_frame_buffer[row][m_col], 8);
+    g_rgb_frame_buffer[row][col] = qadd8(g_rgb_frame_buffer[row][col], 24);
+    if (p_col < MATRIX_COLS) g_rgb_frame_buffer[row][p_col] = qadd8(g_rgb_frame_buffer[row][p_col], 8);
 
     if (p_row < MATRIX_ROWS) {
-        if (m_col < col) g_rgb_frame_buffer[p_row][m_col] = qadd8(g_rgb_frame_buffer[p_row][m_col], 13);
-        g_rgb_frame_buffer[p_row][col] = qadd8(g_rgb_frame_buffer[p_row][col], 16);
-        if (p_col < MATRIX_COLS) g_rgb_frame_buffer[p_row][p_col] = qadd8(g_rgb_frame_buffer[p_row][p_col], 13);
+        if (m_col < col) g_rgb_frame_buffer[p_row][m_col] = qadd8(g_rgb_frame_buffer[p_row][m_col], 10);
+        g_rgb_frame_buffer[p_row][col] = qadd8(g_rgb_frame_buffer[p_row][col], 10);
+        if (p_col < MATRIX_COLS) g_rgb_frame_buffer[p_row][p_col] = qadd8(g_rgb_frame_buffer[p_row][p_col], 10);
     }
 
     if (m_row < row) {
-        if (m_col < col) g_rgb_frame_buffer[m_row][m_col] = qadd8(g_rgb_frame_buffer[m_row][m_col], 13);
-        g_rgb_frame_buffer[m_row][col] = qadd8(g_rgb_frame_buffer[m_row][col], 16);
-        if (p_col < MATRIX_COLS) g_rgb_frame_buffer[m_row][p_col] = qadd8(g_rgb_frame_buffer[m_row][p_col], 13);
+        if (m_col < col) g_rgb_frame_buffer[m_row][m_col] = qadd8(g_rgb_frame_buffer[m_row][m_col], 10);
+        g_rgb_frame_buffer[m_row][col] = qadd8(g_rgb_frame_buffer[m_row][col], 10);
+        if (p_col < MATRIX_COLS) g_rgb_frame_buffer[m_row][p_col] = qadd8(g_rgb_frame_buffer[m_row][p_col], 10);
     }
 }
 
@@ -43,7 +43,7 @@ bool TYPING_HEATMAP(effect_params_t* params) {
     if (led_max > sizeof(g_rgb_frame_buffer)) led_max = sizeof(g_rgb_frame_buffer);
 
     if (params->init) {
-        rgb_matrix_set_color_all(0, 0, 0);
+        rgb_matrix_set_color_all(10, 10, 10);
         memset(g_rgb_frame_buffer, 0, sizeof g_rgb_frame_buffer);
     }
 
@@ -73,6 +73,10 @@ bool TYPING_HEATMAP(effect_params_t* params) {
 
             HSV hsv = {170 - qsub8(val, 85), rgb_matrix_config.hsv.s, scale8((qadd8(170, val) - 170) * 3, rgb_matrix_config.hsv.v)};
             RGB rgb = rgb_matrix_hsv_to_rgb(hsv);
+            if (rgb.r < 8) rgb.r = 8;
+            if (rgb.g < 10) rgb.g = 10;
+            if (rgb.b < 38) rgb.b = 38;
+
             rgb_matrix_set_color(led[j], rgb.r, rgb.g, rgb.b);
         }
 
