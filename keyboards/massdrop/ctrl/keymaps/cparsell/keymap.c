@@ -183,8 +183,8 @@ void matrix_init_user(void) {
     idle_second_counter = 0;                            // Counter for number of seconds keyboard has been idle.
     key_event_counter = 0;                              // Counter to determine if keys are being held, neutral at 0.
     rgb_time_out_seconds = RGB_DEFAULT_TIME_OUT;        // RGB timeout initialized to its default configure in keymap.h
-    rgb_time_out_enable = false;                        // Disable RGB timeout by default. Enable using toggle key.
-    rgb_time_out_user_value = false;                    // Has to have the same initial value as rgb_time_out_enable.
+    rgb_time_out_enable = true;                         // Enable RGB timeout by default. Disable using toggle key, Fn+0.
+    rgb_time_out_user_value = true;                    // Has to have the same initial value as rgb_time_out_enable.
     rgb_enabled_flag = true;                            // Initially, keyboard RGB is enabled. Change to false config.h initializes RGB disabled.
     rgb_time_out_fast_mode_enabled = false;             // RGB timeout fast mode disabled initially.
     rgb_time_out_saved_flag = rgb_matrix_get_flags();   // Save RGB matrix state for when keyboard comes back from ide.
@@ -211,6 +211,7 @@ void matrix_scan_user(void) {
             rgb_matrix_disable_noeeprom();
             rgb_enabled_flag = false;
             idle_second_counter = 0;
+
         }
     }
 };
@@ -258,7 +259,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case KC_R:
+            //Creating my own macro -  trying to anyway - I haven't gotten this to trigger key_event_counter
+            //It's supposed to be when TD_CTRL+ALT+SHIFT+R is pressed
             if (record->event.pressed && get_mods() & MOD_BIT(KC_MEH) ) {
+
                 SEND_STRING("Cool Stuff Slick Stuff Neat Stuff");
                 return false;
             } else {
