@@ -4,6 +4,7 @@ static uint16_t idle_timer;             // Idle LED timeout timer
 static uint8_t idle_second_counter;     // Idle LED seconds counter, counts seconds not milliseconds
 static uint8_t key_event_counter;       // This counter is used to check if any keys are being held
 
+
 static const char * sendstring_commands[] = {
     "git init ",
     "git clone ",
@@ -40,14 +41,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_ENT,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                            KC_UP,
         KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, MO(1),   KC_APP,  KC_RCTL,          KC_LEFT, KC_DOWN, KC_RGHT
-    ),
+    ),                                                            rshift was    KC_SFTENT
     */
     [_KL] = LAYOUT(
         KC_ESC,            KC_F1,          KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,        KC_F12,           KC_PSCR, KC_SLCK, KC_PAUS,
         KC_GRV,            KC_1,           KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,       KC_EQL,  KC_BSPC, KC_INS,  KC_HOME, KC_PGUP,
         KC_TAB,            KC_Q,           KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS, KC_DEL,  KC_END,  KC_PGDN,
         KC_CAPS,           KC_A,           KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,       KC_ENT,
-        KC_LSFT,           KC_Z,           KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_SFTENT,                                KC_UP,
+        KC_LSFT,           KC_Z,           KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,                                KC_UP,
         TD(TD_CTRL_TERM),  TD(TD_LGUI_ML), KC_LALT,                   KC_SPC,                             KC_RALT, TT(_FL), TD(TD_APP_YL), KC_RCTL,          KC_LEFT, KC_DOWN, KC_RGHT
     ),
     [_FL] = LAYOUT(
@@ -183,8 +184,8 @@ void matrix_init_user(void) {
     idle_second_counter = 0;                            // Counter for number of seconds keyboard has been idle.
     key_event_counter = 0;                              // Counter to determine if keys are being held, neutral at 0.
     rgb_time_out_seconds = RGB_DEFAULT_TIME_OUT;        // RGB timeout initialized to its default configure in keymap.h
-    rgb_time_out_enable = false;                        // Disable RGB timeout by default. Enable using toggle key.
-    rgb_time_out_user_value = false;                    // Has to have the same initial value as rgb_time_out_enable.
+    rgb_time_out_enable = true;                         // Enable RGB timeout by default. Disable using toggle key, Fn+0.
+    rgb_time_out_user_value = true;                    // Has to have the same initial value as rgb_time_out_enable.
     rgb_enabled_flag = true;                            // Initially, keyboard RGB is enabled. Change to false config.h initializes RGB disabled.
     rgb_time_out_fast_mode_enabled = false;             // RGB timeout fast mode disabled initially.
     rgb_time_out_saved_flag = rgb_matrix_get_flags();   // Save RGB matrix state for when keyboard comes back from ide.
@@ -192,6 +193,7 @@ void matrix_init_user(void) {
 
 void keyboard_post_init_user(void) {
     rgb_matrix_enable();
+    rgb_matrix_indicators_kb();
 }
 
 // Runs constantly in the background, in a loop.
@@ -211,6 +213,7 @@ void matrix_scan_user(void) {
             rgb_matrix_disable_noeeprom();
             rgb_enabled_flag = false;
             idle_second_counter = 0;
+
         }
     }
 };
@@ -258,13 +261,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case KC_R:
+            //Creating my own macro -  trying to anyway - I haven't gotten this to trigger key_event_counter
+            //It's supposed to be when TD_CTRL+ALT+SHIFT+R is pressed
             if (record->event.pressed && get_mods() & MOD_BIT(KC_MEH) ) {
+
                 SEND_STRING("Cool Stuff Slick Stuff Neat Stuff");
                 return false;
             } else {
                 return true;
             }
             break;
+        /*case KC_CAPS:
+            if (record->event.pressed) {
+                register_code(KC_CAPS);
+                //caps_is_active = !caps_is_active;
+                if (caps_is_active) {
+                  //rgblight_mode(14);
+                }
+                else if (!caps_is_active) {
+                  unregister_code(KC_CAPS);
+                  //rgblight_mode(RGB_current_mode);
+                }
+            }*/
 
     }
 

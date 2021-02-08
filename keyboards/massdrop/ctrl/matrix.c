@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define MATRIX_IO_DELAY 1
 #endif
 
+
 matrix_row_t mlatest[MATRIX_ROWS];
 matrix_row_t mlast[MATRIX_ROWS];
 matrix_row_t mdebounced[MATRIX_ROWS];

@@ -1,6 +1,15 @@
-# Massdrop Ctrl Endgame
-//
-This keymap is here to show some love to the MD Ctrl.
+# Cparsell keymap - a mod of the Endgame keymap
+
+Thanks to the authors of this work. I came to buy a Drop CTRL in Jan 2021 so
+I realize that I came to this party late. It is also my entry into owning a mechanical keyboard. So for better or worse, this is the board I'll use to learn more about QMK and hardware modifications. I forked the QMK firmware and then made some changes to suit my use of it.
+
+1. I commented out some layers I won't be using (GL the Git shortcut layer, YL the Yakuake shortcut layer, and the VL)
+
+2. I've re-enabled some of the reactive LED patterns so that I can experiment with these and understand the code better.
+
+3. The Heatmap Animation is the only animation I made some minor changes to. I've slowed the decay down and, instead of returning to an 'off' state, it returns to a low blue state so the keyboard remains illuminated. The Heatmap Animation is moved to first in rgb_matrix_effects.inc (in quantum/rgb_matrix_animations)
+
+4. The keyboard starts with the RGB Timeout Mode on. By default, the LEDs will turn off after 120 seconds of idle time and turn on as soon as a key is pressed.
 
 ## Layers
 
@@ -16,9 +25,13 @@ This keymap is here to show some love to the MD Ctrl.
 
 ![Mouse Layer](https://imgur.com/xXVFyEE.png)
 
-### Git Layer
+### Git Layer (Disabled for now in this mod)
 
 ![Git Layer](https://imgur.com/WMMM0zz.png)
+
+
+
+**Below is text from the original Endgame Readme:**
 
 ## Features
 
@@ -62,20 +75,9 @@ This list will most probably either expand or have some items removed if they're
 
 ## Motivation
 
-I bought this keyboard because I believed and still believe that it offers the greatest possible value for money for any TKL fan. It was very disappointing to me after receiving it to see that this keyboard didn't get the love it should have in QMK, from either Drop, Inc. or users.
-Granted, this is a TKL RGB board which means it is hated by every single enthusiast in the community. That doesn't mean it shouldn't be getting love form its users, or most importantly its maker.
 
-Drop, Inc. have for some reason decided that they want to work on their own QMK stack. A stupid decision to say the least. Although having made this decision, they did very little actual work on this keyboard and have offered very little support and almost no time working on the firmware. To my knowledge, no one is currently working on it in a truly active fashion. A small handful of people work on the software and even then, they seem to think that their own way of doing things is better than the way chosen by the thousands in the community who have worked on QMK. Their QMK fork for the keyboard is abandoned for months. Updates are few and far between and it seems this keyboard has been forgotten in the annals of 2018 by both its maker and its users.
 
-To their credit, at least they decided to abandon their idiotic RGB setup and have opted after taking their sweet time to use QMK RGB and they did make some much needed changes to mdloader. That being said, Drop, Inc. still don't show love to this keyboard and whether or not they are actually able is questionable.
-
-So the aim of this work, starting with this Keymap, is to make the Massdrop Ctrl a true QMK keyboard instead of the marketing spiel "QMK Supported". As much as it can be made so of course within the bounds of what can be done with information openly available about the keyboard.
-
-I am not of the opinion that a mechanical keyboard is inherently superior. I am of the opinion that a mechanical keyboard is a tool that boosts productivity, enjoyment and efficiency, if it fails at that then it is no longer superior. Programmability is a huge part of that and I can no longer use any keyboard that doesn't have a level of programmability less than  QMK offers.
-
-I will personally do my best for this keyboard for no reason other than it will likely be my main keyboard for years to come.
-
-## Credits
+## Credits from the original Endgame Readme
 
 RGB timeout functionality was originally inspired by the code in this [gist](https://gist.github.com/algernon/9182469e21894192017f2bb5d478c7df).
 LED config code was mostly transferred from [matthewrobo keymap](https://github.com/qmk/qmk_firmware/tree/master/keyboards/massdrop/ctrl/keymaps/matthewrobo).
