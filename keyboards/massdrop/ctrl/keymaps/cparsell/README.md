@@ -7,7 +7,7 @@ I realize that I came to this party late. It is also my entry into owning a mech
 
 2. I've re-enabled some of the reactive LED patterns so that I can experiment with these and understand the code better.
 
-3. The Heatmap Animation is the only animation I made some minor changes to. I've slowed the decay down and, instead of returning to an 'off' state, it returns to a low blue state so the keyboard remains illuminated.
+3. The Heatmap Animation is the only animation I made some minor changes to. I've slowed the decay down and, instead of returning to an 'off' state, it returns to a low blue state so the keyboard remains illuminated. The Heatmap Animation is moved to first in rgb_matrix_effects.inc (in quantum/rgb_matrix_animations)
 
 4. The keyboard starts with the RGB Timeout Mode on. By default, the LEDs will turn off after 120 seconds of idle time and turn on as soon as a key is pressed.
 

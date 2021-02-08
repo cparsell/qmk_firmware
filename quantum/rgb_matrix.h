@@ -224,4 +224,7 @@ extern last_hit_t g_last_hit_tracker;
 #endif
 #ifdef RGB_MATRIX_FRAMEBUFFER_EFFECTS
 extern uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS];
+//extern uint16_t fcount;
+//extern bool fade_in;
+//extern bool fade_out;
 #endif

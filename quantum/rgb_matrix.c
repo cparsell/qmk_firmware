@@ -128,6 +128,7 @@ uint8_t g_rgb_frame_buffer[MATRIX_ROWS][MATRIX_COLS] = {{0}};
 last_hit_t g_last_hit_tracker;
 #endif  // RGB_MATRIX_KEYREACTIVE_ENABLED
 
+
 // internals
 static uint8_t         rgb_last_enable   = UINT8_MAX;
 static uint8_t         rgb_last_effect   = UINT8_MAX;
@@ -393,7 +394,7 @@ void rgb_matrix_task(void) {
 #if RGB_DISABLE_TIMEOUT > 0
         (rgb_anykey_timer > (uint32_t)RGB_DISABLE_TIMEOUT) ||
 #endif  // RGB_DISABLE_TIMEOUT > 0
-        false;
+        false; //
 
     uint8_t effect = suspend_backlight || !rgb_matrix_config.enable ? 0 : rgb_matrix_config.mode;
 
